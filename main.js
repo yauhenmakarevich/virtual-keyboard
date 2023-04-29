@@ -80,3 +80,62 @@ hint.innerHTML = 'For change language press: Alt + Shift';
 document.body.append(hint);
 const hint2 = document.createElement('p');
 
+class Button {
+  constructor(key, lng) {
+    const value = keyboardSpec[key];
+    const charCode = value[0 + lng];
+    const widthKoef = value[6];
+    const altName = value[7];
+    this.button = document.createElement('button');
+    this.button.className = 'button';
+    this.button.id = key;
+    this.button.innerHTML = altName || String.fromCharCode(charCode);
+    this.button.style.height = 'calc((100% - 50px) / 5)';
+    this.button.style.width = `calc((100% - 150px) / 15 * ${widthKoef} + (${widthKoef} - 1) * 10px)`;
+  }
+}
+
+const buttons = document.querySelectorAll('.button');
+
+function activeKey(key) {
+  if (((key !== 'ShiftLeft') || (key !== 'ShiftRight')) && ((prevKey === 'AltLeft') || (prevKey === 'AltRight'))) {
+    document.querySelector(`#${prevKey}`).classList.remove('button--active');
+  }
+  if (Object.prototype.hasOwnProperty.call(keyboardSpec, key) && key !== 'CapsLock'
+    && key !== 'ShiftLeft' && key !== 'ShiftRight' && key !== 'AltLeft' && key !== 'AltRight') {
+    const button = document.querySelector(`#${key}`);
+    button.classList.toggle('button--active');
+    setTimeout(() => {
+      button.classList.toggle('button--active');
+    }, 100);
+    if (keyboardSpec[key][7] === '' || key === 'ArrowUp' || key === 'ArrowDown') {
+      textarea.setRangeText(button.innerHTML, textarea.selectionStart, textarea.selectionEnd);
+      textarea.selectionStart += 1;
+    }
+    if (key === 'Backspace') {
+      textarea.setRangeText('', textarea.selectionStart - 1, textarea.selectionEnd);
+    }
+    if (key === 'Tab') {
+      textarea.setRangeText('\t', textarea.selectionStart, textarea.selectionEnd);
+      textarea.selectionStart += 1;
+    }
+    if (key === 'Delete') {
+      textarea.setRangeText('', textarea.selectionStart, textarea.selectionEnd + 1);
+    }
+    if (key === 'Enter') {
+      textarea.setRangeText('\n', textarea.selectionStart, textarea.selectionEnd);
+      textarea.selectionStart += 1;
+    }
+    if (key === 'ArrowLeft') {
+      textarea.selectionStart -= 1;
+      textarea.selectionEnd = textarea.selectionStart;
+    }
+    if (key === 'ArrowRight') {
+      textarea.selectionStart += 1;
+      textarea.selectionEnd = textarea.selectionStart;
+    }
+    textarea.focus();
+  }
+}
+
+// prototype (Учебник(js) и ссылки на видео 12:15)
