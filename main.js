@@ -68,3 +68,15 @@ Backquote: [96, 126, 96, 1105, 1025, 1025, 1, ''],
 }
 
 // Добавление кода
+const textarea = document.createElement('textarea');
+textarea.className = 'textarea';
+document.body.append(textarea);
+const keyboard = document.createElement('keyboard');
+keyboard.className = 'keyboard';
+document.body.append(keyboard);
+const hint = document.createElement('p');
+hint.className = 'hint';
+hint.innerHTML = 'For change language press: Alt + Shift';
+document.body.append(hint);
+const hint2 = document.createElement('p');
+
