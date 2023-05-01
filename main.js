@@ -80,6 +80,13 @@ hint.innerHTML = 'For change language press: Alt + Shift';
 document.body.append(hint);
 const hint2 = document.createElement('p');
 
+let isShift = false;
+let isCapsLock = false;
+let prevKey = '';
+const LANG_ENG = 0;
+const LANG_RUS = 3;
+let lang = +localStorage.getItem('lang');
+
 class Button {
   constructor(key, lng) {
     const value = keyboardSpec[key];
@@ -94,6 +101,12 @@ class Button {
     this.button.style.width = `calc((100% - 150px) / 15 * ${widthKoef} + (${widthKoef} - 1) * 10px)`;
   }
 }
+
+Object.keys(keyboardSpec).forEach((key) => {
+  if (Object.prototype.hasOwnProperty.call(keyboardSpec, key)) {
+    keyboard.append((new Button(key, lang)).button);
+  }
+});
 
 const buttons = document.querySelectorAll('.button');
 
@@ -136,6 +149,58 @@ function activeKey(key) {
     }
     textarea.focus();
   }
+
+   if (Object.prototype.hasOwnProperty.call(keyboardSpec, key) && (key === 'CapsLock'
+    || key === 'ShiftLeft' || key === 'ShiftRight' || key === 'AltLeft' || key === 'AltRight')) {
+    const button = document.querySelector(`#${key}`);
+    button.classList.toggle('button--active');
+    if (((key === 'ShiftLeft') || (key === 'ShiftRight')) && ((prevKey === 'AltLeft') || (prevKey === 'AltRight'))) {
+      lang = lang ? LANG_ENG : LANG_RUS;
+      localStorage.removeItem('lang');
+      localStorage.setItem('lang', lang);
+      document.querySelector(`#${prevKey}`).classList.remove('button--active');
+      setTimeout(() => {
+        button.classList.toggle('button--active');
+      }, 100);
+      isShift = !isShift;
+    }
+    if (key === 'CapsLock') {
+      isCapsLock = !isCapsLock;
+    }
+    if ((key === 'ShiftLeft') || (key === 'ShiftRight')) {
+      isShift = !isShift;
+    }
+
+    buttons.forEach((e) => {
+      const value = keyboardSpec[e.id];
+      let charCode = value[0 + lang];
+      if (isCapsLock) {
+        charCode = value[2 + lang];
+      }
+      if (isShift) {
+        charCode = value[1 + lang];
+      }
+      const altName = value[7];
+      const btn = e;
+      btn.innerHTML = altName || String.fromCharCode(charCode);
+    });
+  }
+  prevKey = key;
 }
+
+document.addEventListener('keydown', (e) => {
+  e.preventDefault();
+  activeKey(e.code);
+});
+
+document.addEventListener('click', (e) => {
+  if (e.target.tagName === 'BUTTON') {
+    activeKey(e.target.id);
+  }
+});
+
+
+
+
 
 // prototype (Учебник(js) и ссылки на видео 12:15)
