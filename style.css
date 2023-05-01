@@ -26,3 +26,16 @@ body {
     height: 80%;
     margin: px auto;
 }
+.button {
+    background-color: rgba(174, 170, 170, 0.905);
+    border-color: black;
+    border-radius: 5px;
+    font-size: min(1.82vw, 4.16vh);
+    margin: 5px;
+    outline: none;
+    transition: background-color 0.1s;
+}
+
+.button--active {
+    background-color: rgb(255, 255, 255);
+}
