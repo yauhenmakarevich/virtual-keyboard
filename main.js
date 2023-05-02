@@ -1,6 +1,6 @@
-// Добавление кода
+const keyboardSpec = {
 
-const keyBoard = {
+
   Backquote: [96, 126, 96, 1105, 1025, 1025, 1, ''],
   Digit1: [49, 33, 49, 49, 33, 49, 1, ''],
   Digit2: [50, 64, 50, 50, 34, 50, 1, ''],
@@ -67,11 +67,10 @@ const keyBoard = {
   ArrowRight: [0, 0, 0, 0, 0, 0, 1, '►'],
 };
 
-// Добавление кода
 const textarea = document.createElement('textarea');
 textarea.className = 'textarea';
 document.body.append(textarea);
-const keyboard = document.createElement('keyboard');
+const keyboard = document.createElement('div');
 keyboard.className = 'keyboard';
 document.body.append(keyboard);
 const hint = document.createElement('p');
@@ -79,6 +78,7 @@ hint.className = 'hint';
 hint.innerHTML = 'For change language press: Alt + Shift';
 document.body.append(hint);
 const hint2 = document.createElement('p');
+
 
 let isShift = false;
 let isCapsLock = false;

@@ -14,7 +14,7 @@ body {
 
 .textarea {
     background-color: rgb(240, 240, 240);
-    height: 20%;
+    height: 30%;
     font-size: min(1.82vw, 4.16vh);
     outline: none;
 }
